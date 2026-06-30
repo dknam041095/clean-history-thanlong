@@ -2,6 +2,7 @@ name: Clear Discord Channel
 
 on:
   schedule:
+    - cron: '30 4 * * *'  # 0:30 AM GMT+7
     - cron: '03 10 * * *'  # 5:03 PM GMT+7
     - cron: '3 17 * * *'  # 12:03 AM GMT+7 (midnight)
   workflow_dispatch: # cho phép chạy thủ công
