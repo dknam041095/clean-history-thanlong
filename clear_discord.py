@@ -3,20 +3,21 @@ import asyncio
 import os
 import sys
 
-TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
-CHANNEL_ID = int(os.environ.get("DISCORD_CHANNEL_ID"))
+TOKEN = os.environ.get("DISCORD_BOT_TOKEN", "").strip().strip("\"'")
+CHANNEL_ID = os.environ.get("DISCORD_CHANNEL_ID", "").strip()
 
 async def clear_channel():
-    if not TOKEN or not CHANNEL_ID:
-        print("ERROR: Missing DISCORD_BOT_TOKEN or DISCORD_CHANNEL_ID")
+    if not TOKEN or not CHANNEL_ID.isdigit():
+        print("ERROR: Missing/invalid DISCORD_BOT_TOKEN or DISCORD_CHANNEL_ID")
         sys.exit(1)
+    channel_id = int(CHANNEL_ID)
 
     intents = discord.Intents.default()
     client = discord.Client(intents=intents)
 
     async with client:
         await client.login(TOKEN)
-        channel = await client.fetch_channel(CHANNEL_ID)
+        channel = await client.fetch_channel(channel_id)
 
         print(f"Clearing channel: #{channel.name}")
 
